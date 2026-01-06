@@ -15,6 +15,7 @@ declare global {
     interface IconProps extends Icon {
         label: string;
         tab: string;
+        url?: string;
     }
     
     interface StatCardProps extends Icon  {

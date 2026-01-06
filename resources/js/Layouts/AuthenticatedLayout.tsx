@@ -1,6 +1,4 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { PropsWithChildren, ReactNode, useState } from 'react';
@@ -12,22 +10,23 @@ export default function Authenticated({
 }: PropsWithChildren<{ header?: ReactNode }>) {
     const user = usePage().props.auth.user;
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const [activeTab, setActiveTab] = useState('dashboard');
 
-    const NavItem: React.FC<IconProps> = ({ icon: Icon, label, tab }) => (
-        <button
-            onClick={() => setActiveTab(tab)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === tab
+    const pageUrl = usePage().url.replace(/^\//, '');
+    
+
+    const NavItem: React.FC<IconProps> = ({ icon: Icon, label, tab, url }) => (
+        <Link
+            href={url}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${pageUrl === tab
                 ? 'bg-blue-600 text-white'
                 : 'text-gray-300 hover:bg-gray-800'
                 }`}
         >
             <Icon size={20} />
             {sidebarOpen && <span>{label}</span>}
-        </button>
+        </Link>
     );
 
     return (
@@ -47,8 +46,8 @@ export default function Authenticated({
                     </button>
                 </div>
                 <nav className="p-4 space-y-2">
-                    <NavItem icon={Home} label="Dashboard" tab="dashboard" />
-                    <NavItem icon={Users} label="Tenants" tab="tenants" />
+                    <NavItem icon={Home} label="Dashboard" tab="dashboard" url="/dashboard" />
+                    <NavItem icon={Users} label="Tenants" tab="tenants" url="/tenants" />
                     <NavItem icon={DollarSign} label="Payments" tab="payments" />
                     <NavItem icon={Calendar} label="Schedule" tab="schedule" />
                     <NavItem icon={Settings} label="Settings" tab="settings" />
@@ -197,8 +196,8 @@ export default function Authenticated({
                                 <div className="mt-3 space-y-1">
                                     <ResponsiveNavLink href={route('profile.edit')}>
                                         Profile
-                                    </ResponsiveNavLink>
-                                    <ResponsiveNavLink
+                                            </ResponsiveNavLink>
+                                            <ResponsiveNavLink
                                         method="post"
                                         href={route('logout')}
                                         as="button"

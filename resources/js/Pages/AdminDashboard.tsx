@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Home, Users, DollarSign, Calendar, Settings, Menu, X, Bell, Search } from 'lucide-react';
+import { Home, Users, DollarSign } from 'lucide-react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function BoardingHouseApp() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const rooms = [
     { id: 1, number: '101', tenant: 'John Doe', status: 'Occupied', rent: 5000, dueDate: '2024-11-05' },
@@ -29,22 +28,6 @@ export default function BoardingHouseApp() {
     { id: 4, tenant: 'Mike Johnson', room: '104', amount: 6000, date: '2024-10-10', status: 'Pending' },
   ];
 
-  
-
-  const NavItem: React.FC<IconProps> = ({ icon: Icon, label, tab }) => (
-    <button
-      onClick={() => setActiveTab(tab)}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-        activeTab === tab
-          ? 'bg-blue-600 text-white'
-          : 'text-gray-300 hover:bg-gray-800'
-      }`}
-    >
-      <Icon size={20} />
-      {sidebarOpen && <span>{label}</span>}
-    </button>
-  );
-
   const StatCard = ({ title, value, icon: Icon, color }: StatCardProps) => (
     <div className="bg-white rounded-lg shadow p-6 border-l-4" style={{ borderColor: color }}>
       <div className="flex justify-between items-start">
@@ -63,55 +46,12 @@ export default function BoardingHouseApp() {
     <AuthenticatedLayout>
       <div className="flex h-screen bg-gray-100 mt-1">
         {/* Sidebar */}
-        <div
-          className={`bg-gray-900 text-white transition-all duration-300 ${
-            sidebarOpen ? 'w-64' : 'w-20'
-          }`}
-        >
-          <div className="p-4 flex justify-between items-center border-b border-gray-800">
-            {sidebarOpen && <h1 className="text-xl font-bold">BoardingHub</h1>}
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 hover:bg-gray-800 rounded-lg"
-            >
-              {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
-          <nav className="p-4 space-y-2">
-            <NavItem icon={Home} label="Dashboard" tab="dashboard" />
-            <NavItem icon={Users} label="Tenants" tab="tenants" />
-            <NavItem icon={DollarSign} label="Payments" tab="payments" />
-            <NavItem icon={Calendar} label="Schedule" tab="schedule" />
-            <NavItem icon={Settings} label="Settings" tab="settings" />
-          </nav>
-        </div>
-
+       
         {/* Main Content */}
         <div className="flex-1 overflow-auto">
-          {/* Header */}
-          <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-4 flex-1">
-                <div className="relative flex-1 max-w-md">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <button className="p-2 hover:bg-gray-100 rounded-lg relative">
-                  <Bell size={20} className="text-gray-600" />
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                </button>
-              </div>
-            </div>
-          </header>
 
           {/* Dashboard Content */}
-          <main className="p-6">
+          <div className="p-6">
             {activeTab === 'dashboard' && (
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
@@ -243,7 +183,7 @@ export default function BoardingHouseApp() {
                 </div>
               </div>
             )}
-          </main>
+          </div>
         </div>
       </div>
     </AuthenticatedLayout>

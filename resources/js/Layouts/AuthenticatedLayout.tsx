@@ -48,7 +48,7 @@ export default function Authenticated({
                 <nav className="p-4 space-y-2">
                     <NavItem icon={Home} label="Dashboard" tab="dashboard" url="/dashboard" />
                     <NavItem icon={Users} label="Tenants" tab="tenants" url="/tenants" />
-                    <NavItem icon={DollarSign} label="Payments" tab="payments" />
+                    <NavItem icon={DollarSign} label="Payments" tab="payments" url="/payments" />
                     <NavItem icon={Calendar} label="Schedule" tab="schedule" />
                     <NavItem icon={Settings} label="Settings" tab="settings" />
                 </nav>

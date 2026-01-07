@@ -35,6 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/payments', [\App\Http\Controllers\PaymentController::class, 'index'])->name('payments.index');
     Route::get('/payments/create', [\App\Http\Controllers\PaymentController::class, 'create'])->name('payments.create');
     Route::post('/payments', [\App\Http\Controllers\PaymentController::class, 'store'])->name('payments.store');
+
+    Route::get('/rooms', [\App\Http\Controllers\RoomController::class, 'index'])->name('rooms.index');
+    Route::get('/rooms/create', [\App\Http\Controllers\RoomController::class, 'create'])->name('rooms.create');
+    Route::post('/rooms', [\App\Http\Controllers\RoomController::class, 'store'])->name('rooms.store');    
 });
 
 require __DIR__.'/auth.php';

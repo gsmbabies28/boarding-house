@@ -2,7 +2,7 @@ import Dropdown from '@/Components/Dropdown';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { PropsWithChildren, ReactNode, useState } from 'react';
-import { Home, Users, DollarSign, Calendar, Settings, Menu, X, Bell, Search } from 'lucide-react';
+import { Home, Users, DollarSign, Calendar, Settings, Menu, X, Bell, Search, House } from 'lucide-react';
 
 export default function Authenticated({
     header,
@@ -48,8 +48,9 @@ export default function Authenticated({
                 <nav className="p-4 space-y-2">
                     <NavItem icon={Home} label="Dashboard" tab="dashboard" url="/dashboard" />
                     <NavItem icon={Users} label="Tenants" tab="tenants" url="/tenants" />
-                    <NavItem icon={DollarSign} label="Payments" tab="payments" url="/payments" />
+                    <NavItem icon={DollarSign} label="Payments" tab="payments" url="/payments"  />
                     <NavItem icon={Calendar} label="Schedule" tab="schedule" />
+                    <NavItem icon={House} label="Rooms" tab="rooms" url="/rooms" />
                     <NavItem icon={Settings} label="Settings" tab="settings" />
                 </nav>
             </div>

@@ -1,24 +1,31 @@
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
-const tenants = [
-    { id: 1, name: 'John Doe', room: '101', contact: '09123456789', moveIn: '2024-01-15', status: 'Active' },
-    { id: 2, name: 'Jane Smith', room: '102', contact: '09234567890', moveIn: '2024-02-20', status: 'Active' },
-    { id: 3, name: 'Mike Johnson', room: '104', contact: '09345678901', moveIn: '2024-03-10', status: 'Active' },
-    { id: 4, name: 'Sarah Wilson', room: '201', contact: '09456789012', moveIn: '2024-04-05', status: 'Active' },
-];
+type Room = {
+    id: number;
+    room_number: string;
+    capacity: number;
+    occupants: number;
+    price: number;
+}
 
-const Rooms = () => {
+const Rooms: React.FC<{ rooms: Room[] }> = ({ rooms }) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const { data, setData, post } = useForm({
-        firstName: '',
-        lastName: '',
-        room: '',
-        contact: '',
-        moveInDate: '',
+    const { data, setData, post, errors } = useForm({
+        room_number: '',
+        capacity: '',
+        price: '',
     });
+    
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('rooms.store'), {
+            onSuccess: () => setIsModalOpen(false),
+        });
+    }
+    
     return (
         <AuthenticatedLayout>
             <div className="space-y-6">
@@ -42,12 +49,12 @@ const Rooms = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {tenants.map((tenant) => (
-                                <tr key={tenant.id} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{tenant.name}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">{tenant.room}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">{tenant.contact}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">{tenant.moveIn}</td>
+                            {rooms.map((room) => (
+                                <tr key={room.id} className="hover:bg-gray-50">
+                                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{room.room_number}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-600">{room.capacity}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-600">{room.occupants}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-600">{room.price}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -61,24 +68,37 @@ const Rooms = () => {
                 <div className="p-6">
                     <h2 className="text-lg font-medium text-gray-900 mb-4">Add New Tenant</h2>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="px-6 pb-6 space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Room No.</label>
                             <input 
                                 type="text" 
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" 
-                                value={data.firstName}
-                                onChange={(e) => setData('firstName', e.target.value)}
+                                value={data.room_number}
+                                onChange={(e) => setData('room_number', e.target.value)}
                             />
+                            <div className="text-red-500 text-sm">{errors.room_number}</div>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Capacity</label>
-                            <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+                            <input 
+                                type="number" 
+                                value={data.capacity}
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" 
+                                onChange={(e) => setData('capacity', e.target.value)}
+                            />
+                            <div className="text-red-500 text-sm">{errors.capacity}</div>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Price</label>
-                            <input type="number" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" /> 
+                            <input 
+                                type="number"
+                                value={data.price}
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" 
+                                onChange={(e) => setData('price', e.target.value)}
+                            /> 
+                            <div className="text-red-500 text-sm">{errors.price}</div>
                         </div>
                         <div>
                             <button

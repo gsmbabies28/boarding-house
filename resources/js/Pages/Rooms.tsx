@@ -1,15 +1,10 @@
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { useForm, usePage } from '@inertiajs/react';
+import { Room } from '@/types';
+import { useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
-type Room = {
-    id: number;
-    room_number: string;
-    capacity: number;
-    occupants: number;
-    price: number;
-}
+
 
 const Rooms: React.FC<{ rooms: Room[] }> = ({ rooms }) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -25,7 +20,7 @@ const Rooms: React.FC<{ rooms: Room[] }> = ({ rooms }) => {
             onSuccess: () => setIsModalOpen(false),
         });
     }
-    
+
     return (
         <AuthenticatedLayout>
             <div className="space-y-6">

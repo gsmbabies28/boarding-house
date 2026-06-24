@@ -12,3 +12,11 @@ export type PageProps<
         user: User;
     };
 };
+
+export type Room = {
+    id: number;
+    room_number: string;
+    capacity: number;
+    occupants: number;
+    price: number;
+}

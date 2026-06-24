@@ -1,5 +1,6 @@
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Room } from '@/types';
 import { useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -10,7 +11,7 @@ const tenants = [
     { id: 4, name: 'Sarah Wilson', room: '201', contact: '09456789012', moveIn: '2024-04-05', status: 'Active' },
 ];
 
-const Tenants = () => {
+const Tenants: React.FC<{ rooms: Room[] }> = ({ rooms }) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const { data, setData, post } = useForm({
         firstName: '',
@@ -19,6 +20,7 @@ const Tenants = () => {
         contact: '',
         moveInDate: '',
     });
+    
     return (
         <AuthenticatedLayout>
             <div className="space-y-6">
@@ -80,14 +82,22 @@ const Tenants = () => {
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Last Name</label>
-                            <input type="text" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+                            <input 
+                                type="text" 
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" 
+                                value={data.lastName}
+                                onChange={(e) => setData('lastName', e.target.value)}
+                            />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Room</label>
-                            <select className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-                                <option>Room 1</option>
-                                <option>Room 2</option>
-                                <option>Room 3</option>
+                            <select className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                                <option value="">Select a room</option>
+                                {rooms?.map((room) => (
+                                    <option key={room.id} value={room.id}>
+                                        Room {room.room_number}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div>
